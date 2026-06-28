@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -51,9 +52,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeLayout(modifier: Modifier = Modifier) {
     var amountInput by remember { mutableStateOf("") }
+    var tipInput by remember { mutableStateOf("") }
 
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
+
+    val tip = calculateTip(amount, tipPercent)
 
     Column(
         modifier = modifier
@@ -71,8 +75,15 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
+            label = R.string.bill_amount,
             value = amountInput,
-            onValueChange = { amountInput = it },
+            onValueChanged = { amountInput = it },
+            modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
+        )
+        EditNumberField(
+            label = R.string.how_was_the_service,
+            value = tipInput,
+            onValueChanged = { tipInput = it },
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
         )
         Text(
@@ -85,8 +96,9 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
 
 @Composable
 fun EditNumberField(
+    @StringRes label: Int,
     value: String,
-    onValueChange: (String) -> Unit,
+    onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 //    var amountInput by remember { mutableStateOf("") }
@@ -96,8 +108,8 @@ fun EditNumberField(
 
     TextField(
         value = value,
-        onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.bill_amount)) },
+        onValueChange = onValueChanged,
+        label = { Text(stringResource(label)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier,
@@ -111,7 +123,7 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun TipTimePreview() {
     TipTimeTheme {
         TipTimeLayout()
     }
