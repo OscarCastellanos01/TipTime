@@ -70,7 +70,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberFiled(
+        EditNumberField(
             value = amountInput,
             onValueChange = { amountInput = it },
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
@@ -84,7 +84,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun EditNumberFiled(
+fun EditNumberField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -100,7 +100,7 @@ fun EditNumberFiled(
         label = { Text(stringResource(R.string.bill_amount)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
     )
 }
 
